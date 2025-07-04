@@ -119,7 +119,7 @@ const data = { nodes: nodes, edges: edges };
 const options = {  
 nodes: { shape: "dot", size: 25, font: { size: 20 } },  
 edges: { arrows: "to", font: { align: "middle" } },  
-interaction: { hover: true, tooltipDelay: 200, dragNotes: true },  
+interaction: { hover: true, tooltipDelay: 200, dragNodes: true },  
 physics: { stabilization: false }  
 }; 
 const network = new vis.Network(container, data, options);
@@ -128,7 +128,6 @@ params.nodes.forEach(nodeId => {
 nodes.update({ id: nodeId, fixed: { x: true, y: true } });
   });
 }); 
-new vis.Network(container, data, options);  
 </script>  
 </body>  
 </html>

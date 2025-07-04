@@ -126,6 +126,14 @@ const network = new vis.Network(container, data, options);
 network.on("dragEnd", function (params) {
 params.nodes.forEach(nodeId => {
 nodes.update({ id: nodeId, fixed: { x: true, y: true } });
+network.on("dragEnd", function (params) {
+params.nodes.forEach(nodeId => {
+const position = network.getPositions([nodeId])[nodeId];
+nodes.update({
+id: nodeId,
+x: position.x,
+y: position.y,
+fixed: { x: true, y: true }
   });
 }); 
 </script>  

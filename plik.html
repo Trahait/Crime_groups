@@ -1,0 +1,185 @@
+<html>  
+<head>  
+<meta charset="UTF-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<title>Mapa Kiboli – Powiązania</title>  
+<script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>  
+<style>  
+body { font-family: sans-serif; margin: 0; padding: 0; }  
+#graf { width: 100%; height: 95vh; border: 1px solid #ccc; }  
+h2 { text-align: center; background: #222; color: #fff; margin: 0; padding: 12px; }  
+</style>  
+</head>  
+<body>  
+<h2>Mapa powiązań kiboli – grupy, przywódcy, przestępstwa</h2>  
+<div id="graf"></div>  
+<script>  
+const nodes = new vis.DataSet([  
+{ id: 1, label: "WISŁA PŁOCK", title: "Grupa: Patoloyoung (h), Dogs Band (h), Wisła  
+Płock Ultras (u), Młoda Petra\nPrzywódca: —\nPrzestępstwa: Pirotechnika, Bójki grupowe,  
+Zamieszki, Race na murawie" },  
+{ id: 2, label: "ARKA GDYNIA", title: "Grupa: HFA - Hooligans From Arka (h), UAG -  
+Ultras Arka Gdynia (u)\nPrzywódca: Zbigniew RYBAK RYBA \nPrzestępstwa: bójki,  
+wtargnięcia, pirotechnika" },  
+{ id: 3, label: "LEGIA WARSZAWA", title: "Grupa: Teddy Boys'95 (h), Turyści'97 (h),  
+Nieznani Sprawcy (u), UZaLeżnieni (u), Dobrzy Ludzie (u), WFS (u), Old Fashion Man Club  
+(pat.), White Legion (skin.)\nPrzywódca: Piotr S. 'Staruch'\nPrzestępstwa: bójki, przemyt  
+narkotyków, ustawki, rozboje" },  
+{ id: 4, label: "LECH POZNAŃ", title: "Grupa: Young Freaks'98 (h), Terrormachine (h),  
+Landy (h), LPU - Lech Poznań Ultras (u) \nPrzywódca: Krzysztof M. 'Litar'\nPrzestępstwa:  
+napaść, fałszerstwa, pirotechnika, transparenty pedofilskie, ustawki, rozboje" },  
+{ id: 5, label: "WIDZEW ŁÓDŹ", title: "Grupa: DHW'95 – Destroyers Hooligans  
+Widzew (h), YH'02 - Young Hunters (h), Ultras Widzew (u) \nPrzywódca: —\nPrzestępstwa:  
+kradzieże, przemoc stadionowa, podpalenia, wtargnięcia na murawę, bojówki" },  
+{ id: 6, label: "RUCH CHORZÓW", title: "Grupa: PF - Psycho Fans (h), UN'08 - Ultras  
+Niebiescy (u) \nPrzywódca: Maciej.M Maślak \nPrzestępstwa: ustawki, brutalne napady,  
+zadymki, pirotechnika, demolki" },  
+{ id: 7, label: "CHOJNICZANKA", title: "Grupa: FZGT - Fanatycy z Grodu Tura (h&u),  
+Retro Squad (h&u), Młoda Chojna (h) \nPrzywódca: —\nPrzestępstwa: zamieszki," },  
+{ id: 8, label: "STOMIL OLSZTYN", title: "Grupa: Denaturat Boys (h), HooliGang’00  
+(h), Ultras Hałastra'18 (u) \nPrzywódca:  -\nPrzestępstwa: pirotechnika, uprowadzenie, bójki,  
+zamieszki" },  
+{ id: 9, label: "CRACOVIA", title: "Grupa: Jude Gang (h), Anty-wisła (h), Młoda  
+Brygada (h), OCU'02 - Opravcy Cracovia Ultras (u), Bianco Rosso, Cracovia Zachodni  
+Front, Narodowa Cracovia\nPrzywódca: Mariusz Z.\nPrzestępstwa: zamieszki, ataki,  
+zatrzymania" },  
+{ id: 10, label: "ZAGŁĘBIE SOSNOWIEC", title: "Grupa: BB'97 - Barra Bravas (h),  
+Nuovi Ultras'19 (u), Młoda Wiara \nPrzywódca: Kacper B. \nPrzestępstwa: pirotechnika,  
+zamieszki, napaść, zatrzymania, brutalne starcia" },  
+{ id: 11, label: "RADOMIAK RADOM", title: "Grupa: Radomscy Chuligani (h), Ultras  
+Radomiak (u) \nPrzywódca: —\nPrzestępstwa: pobicia, pirotechnika, bójki, zatrzymania," },  
+{ id: 12, label: "ŚLĄSK WROCŁAW", title: "Grupa: Ave Silesia (h), Łaziory'99 (h),  
+Nabojka (h), Młoda Banda Śląska (h), Ultras Silesia (u), Ultravaganza (u) \nPrzywódca:  
+Roman Zieliński \nPrzestępstwa: pirotechnika, demolki, zatrzymania, napaście, pobicia" },  
+{ id: 13, label: "POGOŃ SZCZECIN", title: "Grupa: LFS - Lads From Szczecin (h), UPS - 
+Ultras Pogoń Szczecin (u), MB'17- Młoda Banda'17 \nPrzywódca: —\nPrzestępstwa:  
+zatrzymania, narkotyki, ustawki,, zamieszki" },  
+{ id: 14, label: "GÓRNIK ŁĘCZNA", title: "Grupa: WGW - Wulgarna Grupa Wyjazdowa  
+(h), Eastsiders’04 (u) \nPrzywódca: —\nPrzestępstwa: pirotechnika, sektorówki, napady,  
+rozboje" },  
+{ id: 15, label: "MOTOR LUBLIN", title: "Grupa: Banda Motor (h), Wesoła Ferajna,  
+Stare ReKSy \nPrzywódca: —\nPrzestępstwa:wtargnięcia, ataki z maczetami, zamieszki,  
+bójki, śmiertelne pobicia" },  
+{ id: 16, label: "POLONIA WARSZAWA", title: "Grupa: Crazy Group ’01 (h), Młoda  
+Polonia (h), Ultras Enigma (u), Non Plus Casuals (u), Polonijni Patrioci \nPrzywódca: — 
+\nPrzestępstwa: rozboje, bójki, homofobia, napady, wtargnięcia" },  
+{ id: 17, label: "ZAGŁĘBIE LUBIN", title: "Grupa: HZL – Hooligans Zagłębie Lubin  
+(h), OCB’03 – Orange City Boys (u), SSZL Zagłębie Fanatyków'09, TT'07 - Trupek Team'07  
+\nPrzywódca: —\nPrzestępstwa: pirotechnika, wtargnięcia, rozboje, brutalne pobicia,  
+ztrzymania" },  
+{ id: 18, label: "JAGIELLONIA BIAŁYSTOK", title: "Grupa: JBH - Jagiellonia  
+Białystok Hooligans (h), UJB - Ultras Jagiellonia Białystok (u), Prawicowa Jagiellonia  
+\nPrzywódca: —\nPrzestępstwa: napaść, bójki, zatrzymania ze skazaniem, pirotechnika,  
+vandalizmy" },  
+{ id: 19, label: "WISŁA KRAKÓW", title: "Grupa: Wisła Devils (h), Młoda Ferajna (h),  
+UW - Ultra Wisła (u), Starzy Bywalcy, DoboR22owe TowarzyStwo, Wiślaccy Patrioci  
+(patr.) \nPrzywódca: Paweł Michalski Misiek \nPrzestępstwa: zorganizowana przestępczość,  
+zabójstwa, brutalne walki, pirotechnika, posiadanie broni, wandalizm, narkotyki" },  
+{ id: 20, label: "KORONA KIELCE", title: "Grupa: YBH’01 – Young Boys Hooligans  
+(h), Ultras Korona'04 (u), EG'73 - Emeryten Gang, MK'22 - Młoda Korona, Kieleccy Patrioci  
+\nPrzywódca: —\nPrzestępstwa: bójki, pirotechnika,zamieszki, wtargnięcia, race na  
+murawie" },  
+{ id: 21, label: "ŁKS ŁÓDŹ", title: "Grupa: Uliczni Wojownicy (h), Galera Warriors (u),  
+WRWG - White Red White Gang (u) \nPrzywódca: Wojciech T. Wojtas \nPrzestępstwa:  
+napady, pirotechnika, wandalizm, zamieszki, zorganizowana przestępczość" },  
+{ id: 22, label: "POGOŃ SIEDLCE", title: "Grupa: PSH - Pogoń Siedlce Hooligans (h),  
+Blue Brigade '03, Ultras Kavaliers, Rodowici Siedlczanie \nPrzywódca: —\nPrzestępstwa:  
+bójki " },  
+{ id: 23, label: "POLONIA PRZEMYŚL", title: "Grupa: PB - Przemyskie Bractwo (h),  
+Młoda Polonia (h), Zakazany Element (u) \nPrzywódca: Jerzy Sedlaczek, Piotr Kucharski,  
+Radosław Szuster \nPrzestępstwa: zamieszki,rozboje, pirotechnika" },  
+{ id: 24, label: "GÓRNIK ZABRZE", title: "Grupa: Torcida Górnik (h), Młoda Torca (h),  
+Ultras Górnik Zabrze (u) \nPrzywódca: Mara \nPrzestępstwa: bójki, ustawkowe starcia,  
+pirotechnika, wtargnięcia na murawę, zakłócenia porządku, liczne zatrzymania," },  
+{ id: 25, label: "GKM GRUDZIĄDZ", title: "Grupa: Młody GKM (h), Ultras GKM '17  
+(u) \nPrzywódca: —\nPrzestępstwa: pirotechnika, demolki" },  
+{ id: 26, label: "STAL MIELEC", title: "Grupa: USM’08 – Ultras Stal Mielec (u),  
+CHMK'99 - Chuligani Miasta Kryzysu (h) \nPrzywódca: —\nPrzestępstwa: zatrzymania,  
+demolki, pirotechnika, bójki" },  
+{ id: 27, label: "LECHIA GDAŃSK", title: "Grupa: CHWM - Chuligani Wolnego Miasta  
+(h), ULG - Ultras Lechia Gdańsk (u) \nPrzywódca: Jarosław M. \nPrzestępstwa: ustawki,  
+wandalizm, pirotechnika, zamieszki, naruszanie porządku publicznego" }  
+]);  
+const edges = new vis.DataSet([  
+{ from: 19, to: 9, label: "konflikt", color:{color:"red"} },  
+{ from: 1, to: 8, label: "sojusz", color:{color:"green"} },  
+{ from: 2, to: 27, label: "konflikt", color:{color:"red"} },  
+{ from: 7, to: 2, label: "konflikt", color:{color:"red"} },  
+{ from: 4, to: 6, label: "konflikt", color:{color:"red"} },  
+{ from: 5, to: 21, label: "konflikt", color:{color:"red"} },  
+{ from: 8, to: 18, label: "konflikt", color:{color:"red"} },  
+{ from: 24, to: 26, label: "sojusz", color:{color:"green"} },  
+{ from: 13, to: 10, label: "konflikt", color:{color:"red"} },  
+{ from: 20, to: 14, label: "konflikt", color:{color:"red"} },  
+{ from: 3, to: 4, label: "konflikt", color:{color:"red"} },  
+{ from: 3, to: 10, label: "sojusz", color:{color:"green"} },  
+{ from: 3, to: 11, label: "sojusz", color:{color:"green"} },  
+{ from: 14, to: 15, label: "sojusz", color:{color:"green"} },  
+{ from: 4, to: 9, label: "sojusz", color:{color:"green"} },  
+{ from: 5, to: 19, label: "konflikt", color:{color:"red"} },  
+{ from: 19, to: 3, label: "konflikt", color:{color:"red"} },  
+{ from: 19, to: 4, label: "konflikt", color:{color:"red"} },  
+{ from: 5, to: 3, label: "konflikt", color:{color:"red"} },  
+{ from: 2, to: 4, label: "sojusz", color:{color:"green"} },  
+{ from: 6, to: 24, label: "konflikt", color:{color:"red"} },  
+{ from: 6, to: 5, label: "sojusz", color:{color:"green"} },  
+{ from: 1, to: 13, label: "konflikt", color:{color:"red"} },  
+{ from: 10, to: 26, label: "konflikt", color:{color:"red"} },  
+{ from: 10, to: 16, label: "konflikt", color:{color:"red"} },  
+{ from: 10, to: 23, label: "konflikt", color:{color:"red"} },  
+{ from: 11, to: 20, label: "konflikt", color:{color:"red"} },  
+{ from: 11, to: 15, label: "konflikt", color:{color:"red"} },  
+{ from: 11, to: 18, label: "konflikt", color:{color:"red"} },  
+{ from: 11, to: 27, label: "konflikt", color:{color:"red"} },  
+{ from: 11, to: 12, label: "konflikt", color:{color:"red"} },  
+{ from: 11, to: 26, label: "konflikt", color:{color:"red"} },  
+{ from: 12, to: 15, label: "sojusz", color:{color:"green"} },  
+{ from: 12, to: 27, label: "sojusz", color:{color:"green"} },  
+{ from: 12, to: 18, label: "konflikt", color:{color:"red"} },  
+{ from: 12, to: 24, label: "konflikt", color:{color:"red"} },  
+{ from: 14, to: 13, label: "konflikt", color:{color:"red"} },  
+{ from: 14, to: 23, label: "konflikt", color:{color:"red"} },  
+{ from: 15, to: 12, label: "sojusz", color:{color:"green"} },  
+{ from: 15, to: 23, label: "konflikt", color:{color:"red"} },  
+{ from: 15, to: 22, label: "konflikt", color:{color:"red"} },  
+{ from: 15, to: 17, label: "konflikt", color:{color:"red"} },  
+{ from: 16, to: 21, label: "konflikt", color:{color:"red"} },  
+{ from: 16, to: 15, label: "konflikt", color:{color:"red"} },  
+{ from: 16, to: 12, label: "konflikt", color:{color:"red"} },  
+{ from: 17, to: 12, label: "konflikt", color:{color:"red"} },  
+{ from: 17, to: 3, label: "konflikt", color:{color:"red"} },  
+{ from: 17, to: 15, label: "konflikt", color:{color:"red"} },  
+{ from: 17, to: 24, label: "konflikt", color:{color:"red"} },  
+{ from: 19, to: 2, label: "konflikt", color:{color:"red"} },  
+{ from: 19, to: 21, label: "konflikt", color:{color:"red"} },  
+{ from: 19, to: 24, label: "konflikt", color:{color:"red"} },  
+{ from: 20, to: 18, label: "konflikt", color:{color:"red"} },  
+{ from: 20, to: 10, label: "konflikt", color:{color:"red"} },  
+{ from: 20, to: 13, label: "konflikt", color:{color:"red"} },  
+{ from: 21, to: 4, label: "sojusz", color:{color:"green"} },  
+{ from: 21, to: 27, label: "konflikt", color:{color:"red"} },  
+{ from: 21, to: 8, label: "konflikt", color:{color:"red"} },  
+{ from: 21, to: 11, label: "konflikt", color:{color:"red"} },  
+{ from: 22, to: 2, label: "konflikt", color:{color:"red"} },  
+{ from: 22, to: 6, label: "konflikt", color:{color:"red"} },  
+{ from: 22, to: 1, label: "konflikt", color:{color:"red"} },  
+{ from: 22, to: 14, label: "konflikt", color:{color:"red"} },  
+{ from: 24, to: 27, label: "konflikt", color:{color:"red"} },  
+{ from: 24, to: 2, label: "konflikt", color:{color:"red"} },  
+{ from: 24, to: 13, label: "konflikt", color:{color:"red"} },  
+{ from: 25, to: 7, label: "sojusz", color:{color:"green"} },  
+{ from: 25, to: 27, label: "sojusz", color:{color:"green"} },  
+{ from: 25, to: 8, label: "sojusz", color:{color:"green"} },  
+]);  
+const container = document.getElementById("graf");  
+const data = { nodes: nodes, edges: edges };  
+const options = {  
+nodes: { shape: "dot", size: 25, font: { size: 20 } },  
+edges: { arrows: "to", font: { align: "middle" } },  
+interaction: { hover: true, tooltipDelay: 200 },  
+physics: { stabilization: true }  
+};  
+new vis.Network(container, data, options);  
+</script>  
+</body>  
+</html>
